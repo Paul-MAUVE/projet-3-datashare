@@ -7,11 +7,13 @@ describe('FilesController', () => {
 
   let filesService: {
     findAllByUser: ReturnType<typeof vi.fn>;
+    deleteFileById: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(async () => {
     filesService = {
       findAllByUser: vi.fn(),
+      deleteFileById: vi.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -66,5 +68,22 @@ describe('FilesController', () => {
     expect(
       Reflect.getMetadata('__guards__', FilesController),
     ).toBeDefined();
+  });
+
+  it('should delete a file belonging to the authenticated user', async () => {
+    // GIVEN
+    const request = {
+      user: {
+        userId: 1,
+      },
+    };
+
+    const fileId = '3';
+
+    // WHEN
+    await controller.remove(fileId, request);
+
+    // THEN
+    expect(filesService.deleteFileById).toHaveBeenCalledWith(3, 1);
   });
 });

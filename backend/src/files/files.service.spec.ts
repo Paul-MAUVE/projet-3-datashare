@@ -1,21 +1,32 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { NotFoundException } from '@nestjs/common';
 import { FilesService } from './files.service.js';
 import { PrismaService } from '../prisma/prisma.service.js';
+import { StorageService } from '../storage/storage.service.js';
 
 describe('FilesService', () => {
   let service: FilesService;
-
   let prismaService: {
     file: {
       findMany: ReturnType<typeof vi.fn>;
+      findUnique: ReturnType<typeof vi.fn>;
+      delete: ReturnType<typeof vi.fn>;
     };
+  };
+  let storageService: {
+    deleteObject: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(async () => {
     prismaService = {
       file: {
         findMany: vi.fn(),
+        findUnique: vi.fn(),
+        delete: vi.fn()
       },
+    };
+    storageService = {
+      deleteObject: vi.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -24,6 +35,10 @@ describe('FilesService', () => {
         {
           provide: PrismaService,
           useValue: prismaService,
+        },
+        {
+          provide: StorageService,
+          useValue: storageService,
         },
       ],
     }).compile();
@@ -107,4 +122,69 @@ describe('FilesService', () => {
     ]);
   });
 
+  it('should delete the file from storage', async () => {
+    // GIVEN
+    const fileId = 3;
+    const userId = 1;
+
+    const file = {
+      id: 3,
+      storageKey: 'uploads/abc-document.pdf',
+      userId: 1,
+    };
+
+    prismaService.file.findUnique.mockResolvedValue(file);
+
+    // WHEN
+    await service.deleteFileById(fileId, userId);
+
+    // THEN
+    expect(storageService.deleteObject).toHaveBeenCalledWith('uploads/abc-document.pdf');
+  });
+
+  it('should delete the file from the database', async () => {
+    // GIVEN
+    const fileId = 3;
+    const userId = 1;
+
+    const file = {
+      id: 3,
+      storageKey: 'uploads/abc-document.pdf',
+      userId: 1,
+    };
+
+    prismaService.file.findUnique.mockResolvedValue(file);
+    prismaService.file.delete.mockResolvedValue(file);
+
+    // WHEN
+    await service.deleteFileById(fileId, userId);
+
+    // THEN
+    expect(prismaService.file.delete).toHaveBeenCalledWith({
+      where: {
+        id: 3,
+      },
+    });
+  });
+
+  it('should throw NotFoundException if the file does not belong to the user', async () => {
+    // GIVEN
+    const fileId = 3;
+    const userId = 2;
+
+    prismaService.file.findUnique.mockResolvedValue(null);
+
+    // WHEN
+    await expect(service.deleteFileById(fileId, userId),).rejects.toThrow(NotFoundException);
+
+    // THEN
+    expect(prismaService.file.findUnique).toHaveBeenCalledWith({
+      where: {
+        id: 3,
+        userId: 2,
+      },
+    });
+    expect(storageService.deleteObject).not.toHaveBeenCalled();
+    expect(prismaService.file.delete).not.toHaveBeenCalled();
+  });
 });
