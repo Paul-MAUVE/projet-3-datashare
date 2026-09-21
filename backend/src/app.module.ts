@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { StorageModule } from './storage/storage.module.js';
 import { UploadModule } from './upload/upload.module.js';
+import { FilesModule } from './files/files.module.js';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UploadModule } from './upload/upload.module.js';
     AuthModule,
     StorageModule,
     UploadModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
