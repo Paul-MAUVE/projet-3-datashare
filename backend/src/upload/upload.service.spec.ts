@@ -153,6 +153,8 @@ describe('UploadService', () => {
 
     // THEN : cette URL doit être retournée au client
     expect(result.uploadUrl).toBe('https://example.com/upload');
+    // THEN : la durée de validité de l'URL doit être de 15 minutes
+    expect(result.expiresIn).toBe(900);
   });
 
   it('should create a file when an upload is completed', async () => {
@@ -202,9 +204,8 @@ describe('UploadService', () => {
     expect(result).toEqual(
       expect.objectContaining({
         id: 1,
-        originalName: 'document.pdf',
-        size: BigInt(1024),
-        userId: 1,
+        fileName: 'document.pdf',
+        size: 1024,
       }),
     );
 

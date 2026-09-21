@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { UploadService } from './upload.service.js';
 import { CreateUploadDto } from './dto/create-upload.dto.js';
@@ -11,5 +11,16 @@ export class UploadController {
     @Post()
     async createUpload(@Body() createUploadDto: CreateUploadDto, @Req() request: { user: { userId: number } }){
         return this.uploadService.createUpload(createUploadDto, request.user.userId);
+    }
+
+    @Post(':uploadId/complete')
+    async completeUpload(
+      @Param('uploadId') uploadId: string,
+      @Req() request: { user: { userId: number } },
+    ) {
+      return this.uploadService.completeUpload(
+        Number(uploadId),
+        request.user.userId,
+      );
     }
 }

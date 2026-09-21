@@ -35,6 +35,7 @@ export class UploadService {
       storageKey: uploadSession.storageKey,
       expiresAt: uploadSession.expiresAt,
       uploadUrl,
+      expiresIn: 900,
     };
   }
 
@@ -83,6 +84,11 @@ export class UploadService {
       },
     });
 
-    return file;
+    return {
+      id: file.id,
+      fileName: file.originalName,
+      size: Number(file.size),
+      expirationDate: file.expirationDate,
+    };
   }
 }

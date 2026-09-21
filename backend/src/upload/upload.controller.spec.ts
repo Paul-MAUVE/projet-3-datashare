@@ -5,11 +5,17 @@ import { UploadService } from './upload.service.js';
 describe('UploadController', () => {
   let controller: UploadController;
 
-  const uploadService = {
-    createUpload: vi.fn(),
+  let uploadService : {
+    createUpload: ReturnType<typeof vi.fn>;
+    completeUpload: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(async () => {
+    uploadService = {
+      createUpload: vi.fn(),
+      completeUpload: vi.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
@@ -59,5 +65,26 @@ describe('UploadController', () => {
       uploadUrl: 'https://example.com/upload',
       expiresIn: 900,
     });
+  });
+
+  it('should complete an upload', async () => {
+    // GIVEN
+    const uploadId = 1;
+    const request = {
+      user: {
+        userId: 42,
+      },
+    };
+
+    uploadService.completeUpload.mockResolvedValue({});
+
+    // WHEN
+    await controller.completeUpload(uploadId, request);
+
+    // THEN
+    expect(uploadService.completeUpload).toHaveBeenCalledWith(
+      uploadId,
+      42,
+    );
   });
 });
