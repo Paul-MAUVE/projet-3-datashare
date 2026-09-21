@@ -89,6 +89,7 @@ export class UploadService {
       fileName: file.originalName,
       size: Number(file.size),
       expirationDate: file.expirationDate,
+      downloadUrl: `/api/download/${file.downloadToken}`,
     };
   }
 }

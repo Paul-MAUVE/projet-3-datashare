@@ -8,5 +8,6 @@ import { StorageModule } from '../storage/storage.module.js';
   imports: [PrismaModule, StorageModule],
   providers: [FilesService],
   controllers: [FilesController],
+  exports: [FilesService],
 })
 export class FilesModule {}

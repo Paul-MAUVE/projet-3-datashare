@@ -75,6 +75,47 @@ describe('StorageService', () => {
     expect(url.port).toBe('9000');
   });
 
+  it('should generate a presigned download URL', async () => {
+    // GIVEN: une clé de stockage
+    const storageKey = 'tests/presigned-test.txt';
+
+    // WHEN: une URL présignée de téléchargement est générée
+    const downloadUrl = await service.generateDownloadUrl(storageKey);
+
+    // THEN: l'URL générée doit être une URL HTTP valide
+    const url = new URL(downloadUrl);
+
+    expect(url.protocol).toBe('http:');
+    expect(url.hostname).toBe('localhost');
+    expect(url.port).toBe('9000');
+  });
+
+  it('should download an object using a presigned download URL', async () => {
+    // GIVEN: un fichier de test stocké dans MinIO
+    const storageKey = 'tests/presigned-download-test.txt';
+    const content = 'Hello DataShare';
+
+    await service.uploadObject(
+      storageKey,
+      Buffer.from(content),
+      'text/plain',
+    );
+
+    // WHEN: une URL présignée de téléchargement est générée
+    const downloadUrl = await service.generateDownloadUrl(storageKey);
+    const response = await fetch(downloadUrl);
+
+    // THEN: le téléchargement doit réussir
+    expect(response.status).toBe(200);
+
+    const downloadedContent = await response.text();
+
+    expect(downloadedContent).toBe(content);
+
+    // CLEANUP: supprimer le fichier de test
+    await service.deleteObject(storageKey);
+  });
+
   it('should upload an object using a presigned URL', async () => {
     // GIVEN: une clé et un contenu à uploader
     const storageKey = 'tests/presigned-upload-test.txt';

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, GoneException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { StorageService } from '../storage/storage.service.js';
 
@@ -40,5 +40,32 @@ export class FilesService {
         id: file.id,
       },
     });
+  }
+
+  async getDownloadInfo(downloadToken: string) {
+    const file = await this.prismaService.file.findUnique({
+      where: {
+        downloadToken,
+      },
+    });
+
+    if (!file) {
+      throw new NotFoundException('Download link not found');
+    }
+
+    if (file.expirationDate <= new Date()) {
+      throw new GoneException('Download link has expired');
+    }
+
+    const downloadUrl = await this.storageService.generateDownloadUrl(file.storageKey);
+
+    return {
+      fileName: file.originalName,
+      mimeType: file.mimeType,
+      size: Number(file.size),
+      expirationDate: file.expirationDate,
+      downloadUrl,
+      expiresIn: 900,
+    };
   }
 }

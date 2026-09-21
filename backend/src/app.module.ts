@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module.js';
 import { StorageModule } from './storage/storage.module.js';
 import { UploadModule } from './upload/upload.module.js';
 import { FilesModule } from './files/files.module.js';
+import { DownloadModule } from './download/download.module.js';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { FilesModule } from './files/files.module.js';
     StorageModule,
     UploadModule,
     FilesModule,
+    DownloadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
