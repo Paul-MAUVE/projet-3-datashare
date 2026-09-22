@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, GoneException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { StorageService } from '../storage/storage.service.js';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class FilesService {
@@ -67,5 +68,27 @@ export class FilesService {
       downloadUrl,
       expiresIn: 900,
     };
+  }
+
+  @Cron('0 0 * * *') // Tous les jours à minuit
+  async deleteExpiredFiles() {
+    const expiredFiles = await this.prismaService.file.findMany({
+      where: {
+        expirationDate: { lte: new Date() },
+      },
+    });
+
+    for (const file of expiredFiles) {
+      try {
+        await this.deleteFileById(file.id, file.userId);
+        console.log(`Fichier expiré supprimé : ${file.id}`);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(`Erreur lors de la suppression du fichier ${file.id} :`, error.message);
+        } else {
+          console.error(`Erreur inconnue lors de la suppression du fichier ${file.id}`);
+        }
+      }
+    }
   }
 }

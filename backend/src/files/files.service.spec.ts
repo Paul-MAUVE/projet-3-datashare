@@ -264,4 +264,67 @@ describe('FilesService', () => {
     // THEN
     expect(storageService.generateDownloadUrl).not.toHaveBeenCalled();
   });
+
+  it('should delete expired files', async () => {
+    // GIVEN
+    const expiredFile = {
+      id: 3,
+      storageKey: 'uploads/expired-document.pdf',
+      userId: 1,
+      expirationDate: new Date(Date.now() - 1000),
+    };
+
+    prismaService.file.findMany.mockResolvedValue([expiredFile]);
+    prismaService.file.findUnique.mockResolvedValue(expiredFile);
+
+    // WHEN
+    await service.deleteExpiredFiles();
+
+    // THEN
+    expect(prismaService.file.findMany).toHaveBeenCalledWith({
+      where: {
+        expirationDate: {
+          lte: expect.any(Date),
+        },
+      },
+    });
+
+    expect(prismaService.file.findUnique).toHaveBeenCalledWith({
+      where: {
+        id: 3,
+        userId: 1,
+      },
+    });
+
+    expect(storageService.deleteObject).toHaveBeenCalledWith(
+      'uploads/expired-document.pdf',
+    );
+
+    expect(prismaService.file.delete).toHaveBeenCalledWith({
+      where: {
+        id: 3,
+      },
+    });
+  });
+
+  it('should not delete files when none are expired', async () => {
+    // GIVEN
+    prismaService.file.findMany.mockResolvedValue([]);
+
+    // WHEN
+    await service.deleteExpiredFiles();
+
+    // THEN
+    expect(prismaService.file.findMany).toHaveBeenCalledWith({
+      where: {
+        expirationDate: {
+          lte: expect.any(Date),
+        },
+      },
+    });
+
+    expect(prismaService.file.findUnique).not.toHaveBeenCalled();
+    expect(storageService.deleteObject).not.toHaveBeenCalled();
+    expect(prismaService.file.delete).not.toHaveBeenCalled();
+  });
 });

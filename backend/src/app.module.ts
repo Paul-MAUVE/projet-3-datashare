@@ -9,10 +9,12 @@ import { StorageModule } from './storage/storage.module.js';
 import { UploadModule } from './upload/upload.module.js';
 import { FilesModule } from './files/files.module.js';
 import { DownloadModule } from './download/download.module.js';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    ScheduleModule.forRoot(),
     PrismaModule,
     UserModule,
     AuthModule,
