@@ -1,0 +1,335 @@
+
+/* =========================
+   Page
+   ========================= */
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+
+/* =========================
+   Header
+   ========================= */
+
+.site-header {
+  height: 64px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 5.5%;
+}
+
+.brand {
+  color: var(--text);
+  text-decoration: none;
+
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+
+/* =========================
+   Main
+   ========================= */
+
+main {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 20px;
+}
+
+.login-card h1 {
+  margin-top: 0;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 520px;
+
+  padding: 28px 32px 24px;
+
+  background: rgba(255, 250, 250, 0.96);
+  border-radius: 6px;
+}
+
+/* =========================
+   Formulaire
+   ========================= */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+
+/* Chaque bloc label + input */
+
+form > div:not(.form-actions) {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =========================
+   Labels
+   ========================= */
+
+label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--text);
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+
+/* =========================
+   Inputs
+   ========================= */
+
+input {
+  display: block;
+
+  width: 100%;
+  height: 34px;
+
+  padding: 0 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 3px;
+
+  background: #fff;
+
+  color: var(--text);
+
+  font-family: inherit;
+  font-size: 10px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+input::placeholder {
+  color: #b7aaa6;
+}
+
+input:focus {
+  border-color: var(--primary);
+
+  box-shadow: 0 0 0 2px rgba(246, 140, 115, 0.15);
+}
+
+
+/* Champ invalide */
+
+input[aria-invalid="true"] {
+  border-color: var(--error);
+}
+
+input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 2px rgba(216, 79, 79, 0.12);
+}
+
+
+/* =========================
+   Messages d'erreur
+   ========================= */
+
+#email-error,
+#password-error,
+#login-error {
+  margin: 5px 0 0;
+
+  color: var(--error);
+
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+#login-error {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 9px 12px;
+
+  margin-bottom: 12px;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  border-left: 3px solid var(--error);
+  border-radius: 3px;
+}
+
+
+/* =========================
+   Actions
+   ========================= */
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 9px;
+
+  margin-top: 6px;
+}
+
+
+/* Lien créer un compte */
+
+.form-actions a {
+  order: 1;
+
+  color: var(--primary);
+
+  font-size: 9px;
+  font-weight: 500;
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.form-actions a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+
+/* =========================
+   Bouton connexion
+   ========================= */
+
+.form-actions button {
+  order: 2;
+
+  width: 100%;
+  height: 30px;
+
+  border: none;
+  border-radius: 3px;
+
+  background: rgba(246, 139, 115, 0.2);
+
+  color: var(--primary);
+
+  outline-style: auto;
+  outline-color: rgba(246, 139, 115, 0.5);;
+
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.form-actions button:hover {
+  background: var(--primary-hover);
+
+  color: var(--white);
+}
+
+.form-actions button:active {
+  transform: translateY(1px);
+}
+
+.form-actions button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+
+/* =========================
+   Footer
+   ========================= */
+
+.site-footer {
+  width: 100%;
+
+  padding: 0 5.5% 18px;
+}
+
+.site-footer p {
+  margin: 0;
+
+  color: var(--white);
+
+  font-size: 8px;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 600px) {
+
+  main {
+    padding: 30px 20px;
+  }
+
+  form {
+    max-width: 100%;
+    padding: 25px 24px 22px;
+  }
+
+  .site-footer {
+    display: none;
+  }
+}
+
+
+/* =========================
+   Très petits écrans
+   ========================= */
+
+@media (max-width: 360px) {
+
+  form {
+    padding: 22px 18px 20px;
+  }
+
+  main {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .site-footer {
+    display: none;
+  }
+}

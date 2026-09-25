@@ -1,0 +1,98 @@
+<header class="site-header">
+  <a routerLink="/" class="brand">DataShare</a>
+</header>
+
+<main>
+    <div class="register-card">
+        <h1>Créer un compte</h1>
+
+        @if (errorMessage()) {
+            <p id="register-error" role="alert">
+                {{ errorMessage() }}
+            </p>
+        }
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+            <div>
+                <label for="email">Adresse e-mail</label>
+
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    formControlName="email"
+                    required
+                    [aria-invalid]="email.invalid && email.touched"
+                    [attr.aria-describedby]="email.touched && email.invalid ? 'email-error' : null"
+                />
+                @if (email.touched && email.invalid) {
+                    <p id="email-error">
+                        @if (email.hasError('required')) {
+                            L'adresse e-mail est obligatoire.
+                        } @else if (email.hasError('email')) {
+                            Veuillez saisir une adresse e-mail valide.
+                        }
+                    </p>
+                }
+            </div>
+
+            <div>
+                <label for="password">Mot de passe</label>
+
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autocomplete="new-password"
+                    formControlName="password"
+                    required
+                    [aria-invalid]="password.invalid && password.touched"
+                    [attr.aria-describedby]="password.touched && password.invalid ? 'password-error' : null"
+                />
+                @if (password.touched && password.invalid) {
+                    <p id="password-error">
+                        @if (password.hasError('required')) {
+                            Le mot de passe est obligatoire.
+                        } @else if (password.hasError('minlength')) {
+                            Le mot de passe doit contenir au moins 8 caractères.
+                        }
+                    </p>
+                }
+            </div>
+
+            <div>
+            <label for="confirmPassword">Confirmer le mot de passe</label>
+
+                <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    autocomplete="new-password"
+                    formControlName="confirmPassword"
+                    required
+                    [aria-invalid]="confirmPassword.invalid && confirmPassword.touched || registerForm.hasError('passwordMismatch')"
+                    [attr.aria-describedby]="confirmPassword.touched && (confirmPassword.invalid || registerForm.hasError('passwordMismatch')) ? 'confirm-password-error' : null"
+                />
+                @if (confirmPassword.touched && (confirmPassword.invalid || registerForm.hasError('passwordMismatch'))) {
+                    <p id="confirm-password-error">
+                        @if (confirmPassword.hasError('required')) {
+                            La confirmation du mot de passe est obligatoire.
+                        } @else if (registerForm.hasError('passwordMismatch')) {
+                            Les mots de passe ne correspondent pas.
+                        }
+                    </p>
+                }
+            </div>
+            <div class="form-actions">
+                <a routerLink="/login">J'ai déjà un compte</a>
+                <button type="submit">Créer mon compte</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer class="site-footer">
+  <p>Copyright DataShare© 2026</p>
+</footer>

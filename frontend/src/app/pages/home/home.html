@@ -1,0 +1,24 @@
+<header class="site-header">
+  <a routerLink="/" class="brand">DataShare</a>
+
+    @if (isLoggedIn) {
+      <div class="user-actions">
+        <a routerLink="/my-space" class="login-link">Mon espace</a>
+      </div>
+    } @else {
+      <a routerLink="/login" class="login-link">Se connecter</a>
+    }
+</header>
+
+<main>
+  <div class="home-content">
+    <h3>Tu veux partager un fichier?</h3>
+    <a routerLink="/upload" class="bouton-image">
+      <img src="/images/icon_upload.svg" alt="Importer un fichier" />
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>Copyright DataShare© 2026</p>
+</footer>

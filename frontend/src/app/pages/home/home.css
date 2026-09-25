@@ -1,0 +1,175 @@
+
+/* =========================
+   Page
+   ========================= */
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+
+/* =========================
+   Header
+   ========================= */
+
+.site-header {
+  height: 64px;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 5.5%;
+}
+
+.brand {
+  color: var(--text);
+  text-decoration: none;
+
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.login-link {
+  padding: 8px 14px;
+  border-radius: 5px;
+  background-color: black;
+  color: var(--white);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  background-color: var(--primary);
+}
+
+
+
+/* =========================
+   Main
+   ========================= */
+
+main {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 20px;
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* =========================
+   Bouton image
+   ========================= */
+
+.bouton-image {
+  /* Création du rond parfait */
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  
+  /* Couleurs (Fond noir opaque) */
+  background-color: #000000;
+  
+  /* Outline noir transparent (épaisseur 4px, noir à 30% d'opacité) */
+  outline: 15px solid rgba(0, 0, 0, 0.1);
+  /* Décale légèrement l'outline vers l'extérieur pour ne pas chevaucher le bouton */
+  /*outline-offset: 2px; 
+  
+  /* Centrage de l'image à l'intérieur */
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* Nettoyage des bordures par défaut */
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Redimensionnement de l'icône à l'intérieur */
+.bouton-image img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* Effet au survol : l'outline devient plus opaque */
+.bouton-image:hover {
+  outline-color: rgba(0, 0, 0, 0.3);
+}
+
+
+/* =========================
+   Footer
+   ========================= */
+
+.site-footer {
+  width: 100%;
+
+  padding: 0 5.5% 18px;
+}
+
+.site-footer p {
+  margin: 0;
+
+  color: var(--white);
+
+  font-size: 8px;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 600px) {
+
+  main {
+    padding: 30px 20px;
+  }
+
+  .site-footer {
+    display: none;
+  }
+}
+
+
+/* =========================
+   Très petits écrans
+   ========================= */
+
+@media (max-width: 400px) {
+
+  main {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .site-footer {
+    display: none;
+  }
+}
