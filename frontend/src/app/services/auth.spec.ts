@@ -8,7 +8,7 @@ describe('Auth', () => {
   let httpTesting: HttpTestingController;
 
   beforeEach(() => {
-    sessionStorage.clear();
+    localStorage.clear();
 
     TestBed.configureTestingModule({
       providers: [
@@ -55,7 +55,7 @@ describe('Auth', () => {
     request.flush(expectedResponse);
   });
 
-  it('should store the access token in sessionStorage after login', () => {
+  it('should store the access token in localStorage after login', () => {
     // GIVEN
     const credentials = {
       email: 'test@example.com',
@@ -76,7 +76,7 @@ describe('Auth', () => {
     request.flush(expectedResponse);
 
     // THEN
-    expect(sessionStorage.getItem('accessToken')).toBe('fake-jwt-token');
+    expect(localStorage.getItem('accessToken')).toBe('fake-jwt-token');
   });
 
   it('should not store an access token when login fails', () => {
@@ -90,7 +90,7 @@ describe('Auth', () => {
     service.login(credentials).subscribe({
       error: () => {
         // THEN
-        expect(sessionStorage.getItem('accessToken')).toBeNull();
+        expect(localStorage.getItem('accessToken')).toBeNull();
       }
     });
 
@@ -109,12 +109,12 @@ describe('Auth', () => {
 
   it('should remove the access token on logout', () => {
     // GIVEN
-    sessionStorage.setItem('accessToken', 'fake-jwt-token');
+    localStorage.setItem('accessToken', 'fake-jwt-token');
 
     // WHEN
     service.logout();
 
     // THEN
-    expect(sessionStorage.getItem('accessToken')).toBeNull();
+    expect(localStorage.getItem('accessToken')).toBeNull();
   });
 });

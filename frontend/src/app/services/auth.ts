@@ -16,13 +16,13 @@ export class Auth {
         )
         .pipe(
             tap((response) => {
-                sessionStorage.setItem('accessToken', response.accessToken);
+                localStorage.setItem('accessToken', response.accessToken);
             })
         );
     }
 
     logout(): void {
-        sessionStorage.removeItem('accessToken');
+        localStorage.removeItem('accessToken');
     }
 
     register(credentials: RegisterRequest) {

@@ -7,4 +7,6 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home.css',
   templateUrl: './home.html',
 })
-export class Home {}
+export class Home {
+  isLoggedIn = localStorage.getItem('accessToken') !== null;
+}

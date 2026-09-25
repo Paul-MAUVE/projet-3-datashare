@@ -52,7 +52,7 @@ describe('Login', () => {
     component.email.setValue('test@example.com');
     component.password.setValue('12345678');
 
-    sessionStorage.clear();
+    localStorage.clear();
 
     // WHEN
     component.onSubmit();
@@ -68,7 +68,7 @@ describe('Login', () => {
 
     request.flush({accessToken: 'fake-access-token'});
 
-    expect(sessionStorage.getItem('accessToken')).toBe('fake-access-token');
+    expect(localStorage.getItem('accessToken')).toBe('fake-access-token');
   });
 
   it('should display an error when credentials are invalid', () => {
@@ -76,7 +76,7 @@ describe('Login', () => {
     component.email.setValue('test@example.com');
     component.password.setValue('12345678');
 
-    sessionStorage.clear();
+    localStorage.clear();
 
     // WHEN
     component.onSubmit();
@@ -91,8 +91,8 @@ describe('Login', () => {
     );
 
     // THEN
-    expect(component.errorMessage).toBe('Adresse e-mail ou mot de passe incorrect.');
-    expect(sessionStorage.getItem('accessToken')).toBeNull();
+    expect(component.errorMessage()).toBe('Adresse e-mail ou mot de passe incorrect.');
+    expect(localStorage.getItem('accessToken')).toBeNull();
   });
 
   it('should display a generic error when login fails', () => {
@@ -100,7 +100,7 @@ describe('Login', () => {
     component.email.setValue('test@example.com');
     component.password.setValue('12345678');
 
-    sessionStorage.clear();
+    localStorage.clear();
 
     // WHEN
     component.onSubmit();
@@ -115,8 +115,8 @@ describe('Login', () => {
     );
 
     // THEN
-    expect(component.errorMessage).toBe('Une erreur est survenue. Veuillez réessayer plus tard.');
-    expect(sessionStorage.getItem('accessToken')).toBeNull();
+    expect(component.errorMessage()).toBe('Une erreur est survenue. Veuillez réessayer plus tard.');
+    expect(localStorage.getItem('accessToken')).toBeNull();
   });
 
   it('should navigate to home after a successful login', () => {
