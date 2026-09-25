@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Download } from './download';
 import { Files } from '../../services/files';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 describe('Download', () => {
   let component: Download;
@@ -62,6 +62,19 @@ describe('Download', () => {
 
     expect(component.file()).toEqual(mockFile);
     expect(component.error()).toBe(false);
+  });
+
+  it('should set an error when the download information cannot be loaded', async () => {
+    filesMock.getDownloadInfo = vi.fn(() =>
+      throwError(() => new Error('Download link expired'))
+    );
+
+    fixture = TestBed.createComponent(Download);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+
+    expect(component.error()).toBe(true);
+    expect(component.file()).toBe(null);
   });
 
   it('should format file sizes', () => {
