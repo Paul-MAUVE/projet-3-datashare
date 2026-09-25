@@ -1,0 +1,107 @@
+<header class="site-header">
+  <a routerLink="/" class="brand">DataShare</a>
+
+  <a routerLink="/my-space" class="login-link">
+    Mon espace
+  </a>
+</header>
+
+<main class="upload-page">
+  <section class="upload-card">
+
+    <h1>Ajouter un fichier</h1>
+
+    <div class="file-selection">
+        <input
+            id="file"
+            type="file"
+            (change)="onFileSelected($event)"
+        />
+
+        @if (selectedFile) {
+            <strong>
+            <img src="/images/icon_file_image.svg" alt="" />
+            {{ selectedFile.name }}
+            </strong>
+
+            @if (!uploadResult) {
+            <label for="file">
+                Changer
+            </label>
+            }
+
+            <span>
+            {{ formatFileSize(selectedFile.size) }}
+            </span>
+        } @else {
+            <label for="file">
+            Choisir un fichier
+            </label>
+        }
+    </div>
+
+    @if (fileTooLarge) {
+        <p class="file-size-limit">
+            La taille des fichiers est limitée à 1 Go
+        </p>
+    }
+
+    @if (uploadResult) {
+        <p class="upload-success">
+            Félicitations, ton fichier sera conservé chez nous pendant
+            {{ getDaysRemaining(uploadResult.expirationDate) }} jours !
+        </p>
+    }
+
+    @if (uploadResult) {
+        <a
+            class="download-link"
+            [href]="getDownloadLink()"
+            target="_blank"
+            rel="noopener"
+        >
+            {{ getDownloadLink() }}
+        </a>
+
+        <button
+            type="button"
+            class="copy-link-button"
+            (click)="copyDownloadLink()"
+        >
+            <img src="/images/icon_copy.svg" alt="" />
+            {{ linkCopied ? 'Lien copié !' : 'Copier le lien' }}
+        </button>
+    }
+
+
+
+    @if (!uploadResult) {
+        <div class="expiration">
+        <label for="expiration">Expiration</label>
+
+        <select
+        id="expiration"
+        [value]="expirationDays"
+        (change)="expirationDays = +$any($event.target).value"
+        >
+            <option value="1">Une journée</option>
+            <option value="2">Deux jours</option>
+            <option value="3">Trois jours</option>
+            <option value="4">Quatre jours</option>
+            <option value="5">Cinq jours</option>
+            <option value="6">Six jours</option>
+            <option value="7" selected>Une semaine</option>
+        </select>
+        </div>
+
+        <button type="button" [disabled]="!selectedFile || fileTooLarge" (click)="createUpload()">
+            <img src="/images/icon_download_cloud.svg" alt="" />
+            Téléverser
+        </button>
+    }
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>Copyright DataShare© 2026</p>
+</footer>
