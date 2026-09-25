@@ -51,6 +51,24 @@ Ils couvrent principalement les contrôleurs, services et composants d'infrastru
 | Utilisateurs     | `password.service.spec.ts`    | Gestion et vérification des mots de passe |
 | Utilisateurs     | `user.service.spec.ts`        | Gestion des utilisateurs                  |
 
+### Tests d’intégration
+
+Trois tests d’intégration backend vérifient le fonctionnement du service d’upload avec une véritable base PostgreSQL de test (`datashare_test`).
+
+Le `StorageService` est mocké afin de concentrer ces tests sur l’intégration entre la logique métier et la persistance PostgreSQL.
+
+| Test                            | Vérification                                                  | Résultat  |
+|---                              |---                                                            |---        |
+| Création d’une session d’upload | Création réelle d’une `UploadSession` dans PostgreSQL         | Validé    |
+| Finalisation d’un upload        | Création réelle du `File` et suppression de l’`UploadSession` | Validé    |
+| Taille de fichier incorrecte    | Rejet de l’upload et conservation de la session               | Validé    |
+
+Commande d’exécution :
+
+```bash
+npm run test:integration
+```
+
 ## Résultats
 
 **56 tests** backend sont exécutés avec succès.
