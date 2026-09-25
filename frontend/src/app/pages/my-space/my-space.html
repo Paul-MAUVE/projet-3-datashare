@@ -1,0 +1,150 @@
+<div class="page-layout">
+
+  <aside class="sidebar" [class.open]="menuOpen()">
+
+    <div class="sidebar-header">
+      <a routerLink="/" class="brand">
+        DataShare
+      </a>
+    </div>
+
+    <nav
+      class="sidebar-nav"
+      aria-label="Navigation de l'espace personnel"
+    >
+        <a
+        routerLink="/my-space"
+        routerLinkActive="active"
+        class="nav-link"
+        >
+        Mes fichiers
+        </a>
+    </nav>
+
+  </aside>
+
+  @if (menuOpen()) {
+    <div
+        class="menu-overlay"
+        (click)="toggleMenu()"
+    ></div>
+    }
+    
+  <div class="page-content">
+
+    <header class="page-header">
+
+        <button
+        type="button"
+        class="menu-button"
+        aria-label="Ouvrir le menu"
+        (click)="toggleMenu()"
+        >
+        ☰
+        </button>
+
+      <div class="header-actions">
+
+        <a routerLink="/upload" class="add-files-button">
+            Ajouter des fichiers
+        </a>
+
+        <button type="button" (click)="logout()">
+            <img src="/images/icon_log_out.svg" alt="Déconnexion" />
+          Déconnexion
+        </button>
+
+      </div>
+
+    </header>
+
+    <main>
+
+      <section>
+
+        <h1>Mes fichiers</h1>
+
+        <nav
+        class="file-filters"
+        aria-label="Filtrer les fichiers"
+        >
+          <button
+            type="button"
+            class="filter"
+            [class.active]="selectedFilter() === 'all'"
+            (click)="selectedFilter.set('all')"
+          >
+            Tous
+          </button>
+
+          <button
+            type="button"
+            class="filter"
+            [class.active]="selectedFilter() === 'active'"
+            (click)="selectedFilter.set('active')"
+          >
+            Actifs
+          </button>
+
+          <button
+            type="button"
+            class="filter"
+            [class.active]="selectedFilter() === 'expired'"
+            (click)="selectedFilter.set('expired')"
+          >
+            Expirés
+          </button>
+        </nav>
+
+        <div class="file-list">
+            @if (getFilteredFiles().length === 0) {
+                <p>Aucun fichier pour le moment.</p>
+            } @else {
+                @for (file of getFilteredFiles(); track file.id) {
+                    <article class="file-item">
+
+                        <div class="file-info">
+                        <strong>{{ file.fileName }}</strong>
+
+                        @if (getDaysRemaining(file.expirationDate) > 1) {
+                            <span>
+                              Expire dans
+                            {{ getDaysRemaining(file.expirationDate) }}
+                            jours
+                            </span>
+                        } @else if (getDaysRemaining(file.expirationDate) > 0) {
+                            <span> Expire demain </span>
+                        } @else {
+                            <span class="expired-shorted">Expiré</span>
+                        }
+                        </div>
+
+                        @if (getDaysRemaining(file.expirationDate) > 0) {
+                        <div class="file-actions">
+                            <button type="button"  (click)="deleteFile(file.id)"><img src="/images/icon_delete.svg" alt="" />Supprimer</button>
+                            <a
+                            [routerLink]="['/download', getDownloadToken(file.downloadUrl)]"
+                            class="file-access"
+                            >
+                            Accéder
+                            <img src="/images/icon_arrow_tr.svg" alt="" />
+                            </a>
+                        </div>
+                        } @else {
+                        <span class="expired">
+                            Ce fichier a expiré, il n'est plus stocké chez nous
+                        </span>
+                        }
+
+                    </article>
+                    }
+            }
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</div>
