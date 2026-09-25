@@ -20,6 +20,7 @@ export class FilesService {
       size: Number(file.size),
       uploadDate: file.uploadDate,
       expirationDate: file.expirationDate,
+      downloadUrl: `/api/download/${file.downloadToken}`,
     }));
   }
 

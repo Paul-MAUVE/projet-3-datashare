@@ -64,6 +64,7 @@ describe('FilesService', () => {
         uploadDate: new Date('2026-09-21T09:17:03.526Z'),
         expirationDate: new Date('2026-09-28T09:17:03.526Z'),
         userId: 1,
+        downloadToken: 'test-token',
       },
     ];
 
@@ -86,6 +87,7 @@ describe('FilesService', () => {
         size: 8961,
         uploadDate: new Date('2026-09-21T09:17:03.526Z'),
         expirationDate: new Date('2026-09-28T09:17:03.526Z'),
+        downloadUrl: '/api/download/test-token'
       },
     ]);
   });
@@ -103,7 +105,7 @@ describe('FilesService', () => {
         size: BigInt(8961),
         uploadDate: new Date('2026-09-21T09:17:03.526Z'),
         expirationDate: new Date('2026-09-28T09:17:03.526Z'),
-        downloadToken: 'secret-token',
+        downloadToken: 'test-token',
         passwordHash: null,
         userId: 1,
       },
@@ -120,6 +122,7 @@ describe('FilesService', () => {
         size: 8961,
         uploadDate: new Date('2026-09-21T09:17:03.526Z'),
         expirationDate: new Date('2026-09-28T09:17:03.526Z'),
+        downloadUrl: '/api/download/test-token'
       },
     ]);
   });
