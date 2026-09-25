@@ -1,0 +1,80 @@
+<header class="site-header">
+  <a routerLink="/" class="brand">DataShare</a>
+
+  @if (isLoggedIn) {
+      <a routerLink="/my-space" class="login-link">
+        Mon espace
+      </a>
+  } @else {
+    <a routerLink="/login" class="login-link">
+      Se connecter
+    </a>
+  }
+</header>
+
+<main class="download-page">
+  <section class="download-card">
+
+    @if (error()) {
+
+      <h1>Fichier introuvable</h1>
+
+      <p>
+        Ce lien de téléchargement est invalide ou n'existe plus.
+      </p>
+
+    } @else {
+
+      <h1>Télécharger un fichier</h1>
+
+        <div class="file-info">
+            @if (file()) {
+                <strong>
+                    <img src="/images/icon_file_image.svg" alt="" />
+                    {{ file()!.fileName }}
+                </strong>
+                <span>{{ formatFileSize(file()!.size) }}</span>
+            } @else {
+                <span>Chargement...</span>
+            }
+        </div>
+
+      @if (file()) {
+        @let daysRemaining = getDaysRemaining(file()!.expirationDate);
+        <p
+            class="expiration"
+            [class.expiration-safe]="daysRemaining >= 2"
+            [class.expiration-warning]="daysRemaining === 1"
+            [class.expiration-expired]="daysRemaining <= 0"
+            >
+            @if (daysRemaining >= 2) {
+                <img src="/images/icon_info.svg" alt="" />
+                Ce fichier expirera dans {{ daysRemaining }} jours.
+            } @else if (daysRemaining === 1) {
+                <img src="/images/icon_warn.svg" alt="" />
+                Ce fichier expirera demain.
+            } @else {
+                <img src="/images/icon_exp.svg" alt="" />
+                Ce fichier n'est plus disponible en téléchargement car il a expiré.
+            }
+        </p>
+
+        @if (daysRemaining > 0) {
+            <button
+              type="button"
+              (click)="downloadFile()"
+            >
+                <img src="/images/icon_download_cloud.svg" alt="" />
+                Télécharger
+            </button>
+        }
+      }
+
+    }
+
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>Copyright DataShare© 2026</p>
+</footer>
