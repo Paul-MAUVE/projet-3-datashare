@@ -204,7 +204,7 @@ Lorsqu'un problème de performance est suspecté, les métriques suivantes peuve
 - taille du bundle frontend ;
 - métriques Lighthouse.
 
-Les tests de performance k6 documentés dans `PERF.md` permettent de reproduire les mesures sur les endpoints critiques.
+Les résultats k6 documentés dans `PERF.md` constituent une référence issue d'une campagne réalisée pendant le développement. Les scénarios utilisés pour cette campagne ne sont pas conservés dans le dépôt.
 
 Les tests réalisés sur l'environnement local constituent une référence de comparaison et ne remplacent pas des mesures réalisées sur une infrastructure de production.
 
@@ -226,8 +226,11 @@ et :
 trivy fs .
 ```
 
-Une recherche de secrets peut également être réalisée avec Trivy.
+Une recherche de secrets peut également être réalisée avec GitLeaks :
 
+```bash
+gitleaks detect --source . --redact
+```
 Les résultats détaillés des analyses sont documentés dans `SECURITY.md`.
 
 Les secrets applicatifs doivent rester dans les variables d'environnement et ne doivent pas être ajoutés au dépôt Git.

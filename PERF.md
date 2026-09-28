@@ -13,6 +13,7 @@ Les mesures ont été réalisées dans l'environnement de développement local d
 ### 2.1 Méthodologie
 
 Les performances de plusieurs endpoints critiques du backend ont été mesurées avec **k6**.
+Les résultats présentés correspondent à une campagne de mesure réalisée pendant le développement du projet. Les scénarios k6 utilisés pour cette campagne ne sont pas conservés dans le dépôt.
 
 Les scénarios testés sont :
 
@@ -81,9 +82,9 @@ Le build de production Angular produit :
 
 | Élément        | Taille brute | Taille transférée estimée |
 |---             |---:          |---:                       |
-| Bundle initial | 339,24 kB    | 85,81 kB                  |
+| Bundle initial | 339,08 kB    | 85,46 kB                  |
 | Styles         | 370 B        | 370 B                     |
-| Total initial  | 339,24 kB    | 85,81 kB                  |
+| Total initial  | 339,45 kB    | 85,83 kB                  |
 
 Le build reste largement inférieur au budget initial configuré à 500 kB.
 
@@ -94,6 +95,7 @@ Une première optimisation a permis de supprimer des règles CSS dupliquées dan
 ### 3.3 Audit Lighthouse
 
 L'application a été auditée avec Lighthouse sur le build Angular de production, servi localement.
+Les résultats présentés correspondent à une campagne d'audit réalisée pendant le développement du projet. Le rapport Lighthouse généré lors de cette campagne n'est pas conservé dans le dépôt.
 
 | Catégorie        | Score       |
 |---               |---:         |
