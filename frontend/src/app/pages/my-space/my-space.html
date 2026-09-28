@@ -37,7 +37,8 @@
         <button
         type="button"
         class="menu-button"
-        aria-label="Ouvrir le menu"
+        [attr.aria-label]="menuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'"
+        [attr.aria-expanded]="menuOpen()"
         (click)="toggleMenu()"
         >
         ☰
@@ -72,6 +73,7 @@
             type="button"
             class="filter"
             [class.active]="selectedFilter() === 'all'"
+            [attr.aria-pressed]="selectedFilter() === 'all'"
             (click)="selectedFilter.set('all')"
           >
             Tous
@@ -81,6 +83,7 @@
             type="button"
             class="filter"
             [class.active]="selectedFilter() === 'active'"
+            [attr.aria-pressed]="selectedFilter() === 'active'"
             (click)="selectedFilter.set('active')"
           >
             Actifs
@@ -90,6 +93,7 @@
             type="button"
             class="filter"
             [class.active]="selectedFilter() === 'expired'"
+            [attr.aria-pressed]="selectedFilter() === 'expired'"
             (click)="selectedFilter.set('expired')"
           >
             Expirés
