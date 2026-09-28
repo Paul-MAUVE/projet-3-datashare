@@ -6,9 +6,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* =========================
-   LAYOUT
-   ========================= */
+/* LAYOUT */
 
 .page-layout {
   min-height: 100vh;
@@ -24,9 +22,7 @@
   flex-direction: column;
 }
 
-/* =========================
-   SIDEBAR
-   ========================= */
+/* SIDEBAR */
 
 .sidebar {
   width: 220px;
@@ -92,9 +88,7 @@
   font-weight: 700;
 }
 
-/* =========================
-   HEADER
-   ========================= */
+/* HEADER */
 
 .page-header {
   height: 64px;
@@ -173,9 +167,7 @@
   display: none;
 }
 
-/* =========================
-   CONTENU
-   ========================= */
+/* CONTENU */
 
 main {
   flex: 1;
@@ -197,9 +189,7 @@ h1 {
   font-weight: 700;
 }
 
-/* =========================
-   FILTRES
-   ========================= */
+/* FILTRES */
 
 .file-filters {
   display: flex;
@@ -234,9 +224,7 @@ h1 {
   color: var(--white);
 }
 
-/* =========================
-   LISTE
-   ========================= */
+/* LISTE */
 
 .file-list {
   width: 100%;
@@ -331,14 +319,6 @@ h1 {
 
 .expired {
   font-size: 11px;
-  color: var(--primary);
-}
-
-.expired-shorted {
-  color: var(--primary);
-}
-
-.expired {
   color: gray;
 }
 
