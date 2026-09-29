@@ -111,7 +111,7 @@
 .file-selection span {
   padding-left: 26px;
   font-size: 11px;
-  color: #777;
+  color: #393939;
 }
 
 .file-selection label {
@@ -124,7 +124,7 @@
   border-radius: 5px;
 
   background-color: var(--white);
-  color: var(--primary);
+  color: #a85b49;
 
   font-size: 11px;
   font-weight: 600;

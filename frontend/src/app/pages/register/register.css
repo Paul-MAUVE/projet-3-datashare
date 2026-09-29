@@ -167,7 +167,8 @@ input[aria-invalid="true"]:focus {
 
 #email-error,
 #password-error,
-#login-error {
+#login-error,
+#confirm-password-error {
   margin: 5px 0 0;
 
   color: var(--error);
