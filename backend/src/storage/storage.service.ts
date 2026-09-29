@@ -7,14 +7,18 @@ export class StorageService {
   private readonly s3Client: S3Client;
 
   constructor() {
+    const isMinio = process.env.S3_PROVIDER === 'minio';
+
     this.s3Client = new S3Client({
-      endpoint: process.env.S3_ENDPOINT,
+      ...(isMinio && {
+        endpoint: process.env.S3_ENDPOINT,
+        forcePathStyle: true,
+      }),
       region: process.env.S3_REGION,
       credentials: {
         accessKeyId: process.env.S3_ACCESS_KEY!,
         secretAccessKey: process.env.S3_SECRET_KEY!,
       },
-      forcePathStyle: true,
     });
   }
 
